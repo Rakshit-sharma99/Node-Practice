@@ -1,53 +1,19 @@
 const express = require('express');
+const userRouter = require('./routes/userRouter');
+const hostRouter = require('./routes/hostRouter');
 
 
 const app = express();
 
-app.use((req , res , next)=>{
-    console.log(req.url, req.method);
-    next();
-});
+
 
 app.use(express.urlencoded());
+app.use(userRouter); 
+app.use(hostRouter);
 
-
-
-
-app.get("/",(req , res , next)=>{
-    res.send(`
-        <h1>Welcome to Airbnb</h1>
-        <a href = "/home">Add Home</a>
-        
-        `);
+    app.use((req ,res , next)=>{
+        res.status(404).send("<h1>404 Your page is lost some where🥹 </h1>")
     })
-    app.get("/home",(req , res , next)=>{
-        res.send(`
-            <h1>Register Your Home Here to Airbnb</h1>
-            <form action ="/home" method = "POST">
-            <input type = "text" name = "Housename" placeholder="Enter name of your house">
-            <input type ="submit">
-            </form>
-            `);
-        })
-        
-        
-        app.post("/home",(req , res , next)=>{
-            console.log(req.body);
-            
-            res.send(`
-                <h1>Home Registered Succesfully ✅</h1>
-                <a href = "/">Go To Home</a>
-     
-        `);
-})
-
-
-
-
-
-
-
-
 
 const port = 3000;
  app.listen(port,()=>{
